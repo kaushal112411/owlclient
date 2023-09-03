@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Anprclient",
-    "slug": "Anprclient",
+    "name": "owlclient",
+    "slug": "owlclient",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Frame.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -14,6 +14,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "updates":{
+      "useClassicUpdates":true
+    },
     "ios": {
       "supportsTablet": true
     },

@@ -9,13 +9,31 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/ngrok": "^4.1.1",
+    "@rneui/base": "^4.0.0-rc.7",
+    "@rneui/themed": "^4.0.0-rc.8",
+    "axios": "^1.4.0",
     "expo": "~49.0.8",
+    "expo-camera": "^13.4.2",
+    "expo-file-system": "^15.4.3",
+    "expo-image-picker": "^14.3.2",
+    "expo-linear-gradient": "~12.3.0",
     "expo-status-bar": "~1.6.0",
+    "expo-updates": "^0.18.12",
+    "nativewind": "^2.0.11",
     "react": "18.2.0",
-    "react-native": "0.72.4"
+    "react-native": "0.72.4",
+    "react-native-flexbox-grid": "^0.3.2",
+    "react-native-paper": "^5.10.3",
+    "react-native-safe-area-context": "4.6.3",
+    "react-native-tailwindcss": "^1.1.11",
+    "react-native-toast-message": "^2.1.6",
+    "react-native-vector-icons": "^10.0.0",
+    "twrnc": "^3.6.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "tailwindcss": "^3.3.2"
   },
   "private": true
 }

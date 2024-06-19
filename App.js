@@ -13,7 +13,6 @@ import Toast from 'react-native-toast-message';
 import { Header as HeaderRNE, HeaderProps, Icon } from '@rneui/themed';
 import {LinearGradient}  from 'expo-linear-gradient';
 import {logo} from "./assets/Frame.png"
-//import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Grid, Row, Col } from 'react-native-flexbox-grid';
 import {
   Button,
@@ -23,13 +22,11 @@ import {
 const Separator = () => <View style={styles.separator} />;
 
 export default function App() {
-  // const [uploaddata,setUploaddata] = useState()
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraType, setCameraType] = useState(Camera.Constants.Type.back);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const cameraRef = useRef(null);
   const [capturedImage, setCapturedImage] = useState(null);
-  // const [captured,setCaptured] = useState(false)
   const [base,setBase] = useState("")
   const [base64Image, setBase64Image] = useState(null);
   const [genereted,setGenerated] = useState(false)
@@ -78,7 +75,6 @@ export default function App() {
       visibilityTime:2500,
       autoHide:true,
      position:'bottom',
-     //topOffset:110,
      bottomOffset:50
     })
   }
@@ -86,7 +82,6 @@ export default function App() {
     if (cameraRef.current) {
       const { uri } = await cameraRef.current.takePictureAsync();
       setCapturedImage(uri);
-      //convert image to base64 format
       convertToBase64(uri);
       setShowmodal(true)
     }
@@ -97,10 +92,8 @@ export default function App() {
       const base64 = await FileSystem.readAsStringAsync(imageUri, {
         encoding: FileSystem.EncodingType.Base64,
       });
-     // console.log(base64);
       setBase(base64)
       setBase64Image(base64);
-      // You can now use the base64 string as needed, e.g., send it to a server or display it in your app.
     } catch (error) {
       console.error('Error converting image to base64:', error);
     }
@@ -120,7 +113,6 @@ export default function App() {
         setShowmodal(true)
         console.log('Selected Image URI:', uri);
         console.log('Selected Image as Base64:', base64);
-        // You can now use the selected image's URI and base64 string as needed.
       }
     } catch (error) {
       console.error('Error picking an image from the gallery:', error);
@@ -185,7 +177,7 @@ export default function App() {
                 if (base64Image) {
                   console.log('Base64 Image:', base64Image);
                   console.log("recieved an image")
-                 
+                  
                   // setCapturedImage(null)
                   setBase64Image(null)
                   setIsCameraOpen(false)
@@ -218,7 +210,6 @@ export default function App() {
            className="text-white items-center rounded-md bg-gradient-to-r from-cyan-500 to-blue-400"
            //style={styles.openButton}
            >
-            {/* <Text style={styles.openText} >Open Camera</Text> */}
             <EvilIcons name="camera" size={38} color="white" />
           </TouchableOpacity>
           </LinearGradient>
@@ -232,7 +223,6 @@ export default function App() {
           <TouchableOpacity 
           //style={styles.uploadButton} 
           onPress={pickImage}>
-            {/* <Text style={styles.uploadButtonText}>Upload</Text> */}
             <EvilIcons name="image" size={38} color="white" />
           </TouchableOpacity>
           </LinearGradient>
@@ -244,7 +234,6 @@ export default function App() {
             setResponse({})
             setLoader(true)
           }}>
-            {/* <Text style={styles.uploadText}>Upload</Text> */}
             <EvilIcons name="close-o" size={38} color="white" />
           </TouchableOpacity>
           }
@@ -303,7 +292,6 @@ export default function App() {
                 { capturedImage &&
                 <Image source={{ uri: `file://${capturedImage}` }} style={{
                   flex: 1,
-                  //width: Dimensions.get('window').width, // Set image width to full screen width
                   padding:100,
                   marginBottom:20,
                   borderRadius:20,
@@ -337,7 +325,32 @@ export default function App() {
                   if (base64Image) {
                     console.log('Base64 Image:', base64Image);
                     console.log("Genaerate button after upload")
-                    
+                    axios.post('http://test-alb-2004833434.ap-south-1.elb.amazonaws.com/infer', 
+                  {
+                    "image":base64Image
+                  }
+                  //   {
+                  //     "global_unique_id": "id-set-by-NETC",
+                  //     "image_evidence": base64Image,
+                  //     "image_timestamp": "2023-06-07T05:10:51Z",
+                  //     "vrn": "AP28CL6517",
+                  //     "vrn_confidence": "0.99",
+                  //     "use_case": "parking",
+                  //     "image_format": "png",
+                  //     "callback_url": "http://test-alb-2004833434.ap-south-1.elb.amazonaws.com/",
+                  //     "test":"test"
+                  // }
+                  )
+                  .then(function (response) {
+                    console.log("This Is tHeREsPose",response.data);
+                    setResponse(response.data)
+                    setLoader(false)
+                    showToast("success")
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                    showToast("error")
+                  });
                     
                     
                     
@@ -401,7 +414,7 @@ export default function App() {
                   console.log('Base64 Image:', base64Image);
                   console.log("Genaerate button after upload")
                   
-                  axios.post('http://183.82.7.228:8080/latency-test', 
+                  axios.post('', 
                   
                     {
                       "global_unique_id": "id-set-by-NETC",
@@ -477,10 +490,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundColor: "black", // Set background color to black for full screen effect
   },
   cameraContainer: {
-    // flexDirection:'row',
     flex:4,
     justifyContent: 'center',
     alignItems: 'center',
@@ -488,8 +499,6 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
     width: Dimensions.get('window').width, // Set camera width to full screen width
-    //height:'80%'
-   //width:'70%'
   },
   uploadButton: {
     backgroundColor: '#EA906C',
@@ -500,8 +509,6 @@ const styles = StyleSheet.create({
     marginRight:20,
   },
   crossButton: {
-    //backgroundColor: 'black',
-    //color:'white',
     paddingTop:6,
     borderRadius: 35,
     marginTop: 20,
@@ -518,8 +525,6 @@ const styles = StyleSheet.create({
     paddingLeft:25,
   },
   DisplayEmp: {
-   // fontSize: 18,
-   // color: '#F8F0E5',
     padding:40,
     paddingLeft:25,
   },
@@ -533,7 +538,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end', // Move buttons to the bottom
   },
   openButton: {
-    //backgroundColor: '#337CCF',
     padding: 5,
     borderRadius: 15,
     marginTop: 20,
@@ -579,7 +583,6 @@ const styles = StyleSheet.create({
   topButtonContainer: {
     display:'flex',
     flexDirection: 'row', // Arrange buttons horizontally
-    //justifyContent: 'space-between', // Add space between buttons
     marginTop: 10,
     width:'100%',
     padding:10
